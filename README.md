@@ -1,5 +1,5 @@
 # os-labs
-This repository contains laboratory work for the course "operating systems", relevant for 2019.
+This repository contains laboratory works for the course "operating systems", relevant for summer 2019.
 
 They are based on the works of students of previous years, which are contained in the .other folder, but refactored and adapted for 2019.
 
