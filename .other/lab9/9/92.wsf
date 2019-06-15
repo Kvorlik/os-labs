@@ -1,0 +1,20 @@
+<package>
+<job id="regedit">
+<script language = "JScript">
+var WshShell, sReg;
+ WshShell = WScript.CreateObject("WScript.Shell");
+sReg = "homedrive "+ WshShell.RegRead("HKEY_CURRENT_USER\\Volatile Environment\\HOMEDRIVE");
+WScript.Echo(sReg);
+sReg = "homepath "+ WshShell.RegRead("HKEY_CURRENT_USER\\Volatile Environment\\HOMEPATH");
+WScript.Echo(sReg);
+sReg = "id "+ WshShell.RegRead("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\LogonUI\\SelectedUserSID");
+WScript.Echo(sReg);
+sReg = WshShell.RegRead("HKEY_CURRENT_USER\\Keyboard Layout\\Preload\\1");
+if (sReg == 419) 
+sReg = "Keyboard Layout: Russian";
+else if (sReg == 409)
+sReg = "Keyboard Layout: English";
+WScript.Echo(sReg);
+</script>
+</job>
+</package>

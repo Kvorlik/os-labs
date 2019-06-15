@@ -1,0 +1,73 @@
+<?XML version=" 1.0" standalone="yes" ?>
+<job id="task2">
+<runtime>
+<description>
+Имя: task2.wsf
+Описание: сценарий, который удаляет ненужные временные файлы с указанного пользователем диска
+</description>
+</runtime>
+<script language="JScript">
+<![CDATA[
+
+function DeleteTemporaryFiles(Disk)
+{
+    var F = WScript.CreateObject("Scripting.FileSystemObject").GetFolder(Disk + "\\");
+    var FolderCollection = new Enumerator(F.SubFolders);
+    for (var i = 0; !FolderCollection.atEnd(); FolderCollection.moveNext())
+    {
+		F = WScript.CreateObject("Scripting.FileSystemObject").GetFolder(Disk + "\\" + FolderCollection.item().Name);
+		var FileCollection = new Enumerator(F.Files);
+		for(; !FileCollection.atEnd(); FileCollection.moveNext())
+		{
+			if(FileCollection.item().Type == "Файл \"TMP\"")
+			{
+				var path = FileCollection.item().Path;
+				File.Write(path + "\t");
+				FileCollection.item().Delete();
+				if(FSO.FileExists(path)) File.WriteLine("Busy");
+				else File.WriteLine("OK");
+				kol++;
+			}
+		}
+		DeleteTemporaryFiles(Disk + "\\" + FolderCollection.item().Name);
+    }
+}
+
+var WshShell = WScript.CreateObject("WScript.Shell");
+var FSO = WScript.CreateObject("Scripting.FileSystemObject");
+var DriveCollection = new Enumerator(FSO.Drives);
+var File = FSO.CreateTextFile(WshShell.CurrentDirectory + "/report.txt", true);
+WScript.Echo("Доступные диски для удаления временных файлов:");
+for(var i = 1; !DriveCollection.atEnd(); DriveCollection.moveNext())
+{
+	if(DriveCollection.item().IsReady)
+	{
+		WScript.Echo(i + ") Диск " + DriveCollection.item().DriveLetter + ":")
+		i++;
+	}
+}
+WScript.Echo("\nВведите имя диска");
+var disk = WScript.StdIn.ReadLine();
+var kol = 0;
+var FF = WScript.CreateObject("Scripting.FileSystemObject").GetFolder(disk + "\\");
+var FFileCollection = new Enumerator(FF.Files);
+for(; !FFileCollection.atEnd(); FFileCollection.moveNext())
+		{
+			if(FFileCollection.item().Type == "Файл \"TMP\"")
+			{
+				var ppath = FFileCollection.item().Path;
+				File.Write(ppath + "\t");
+				FFileCollection.item().Delete();
+				if(FSO.FileExists(ppath)) File.WriteLine("Busy");
+				else File.WriteLine("OK");
+				kol++;
+			}
+		}
+DeleteTemporaryFiles(disk);
+File.Write("Total: " + kol + " files");
+File.Close();
+WScript.Echo("\nОтчет о результате работы записан в файл report.txt!")
+
+]]>
+</script>
+</job>

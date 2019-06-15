@@ -1,0 +1,26 @@
+<?XML version=" 1.0" standalone="yes" ?>
+<job id="task1">
+<runtime>
+<description>
+Имя: task2.wsf
+Описание: Выводит следующую информацию
+1) Диск, на котором находится профиль пользователя
+2) Домашний каталог
+3) Идентификатор пользователя
+4) Раскладку клавиатуры по умолчанию
+</description>
+</runtime>
+<script language="JScript">
+<![CDATA[
+var userProfileDisk, homeDirectory, userID, keyboardLayout;
+var WshShell = WScript.CreateObject("WScript.Shell");
+userProfileDisk = WshShell.RegRead("HKEY_CURRENT_USER\\Volatile Environment\\HOMEDRIVE");
+homeDirectory = WshShell.RegRead("HKEY_CURRENT_USER\\Volatile Environment\\HOMEPATH");
+userID = WshShell.RegRead("HKEY_CURRENT_USER\\Identities\\Default User ID");
+if(WshShell.RegRead("HKEY_CURRENT_USER\\Keyboard Layout\\Preload\\1") == "00000409") keyboardLayout = "ENG";
+else if (WshShell.RegRead("HKEY_CURRENT_USER\\Keyboard Layout\\Preload\\1") == "00000419") keyboardLayout = "RUS";
+else keyboardLayout = WshShell.RegRead("HKEY_CURRENT_USER\\Keyboard Layout\\Preload\\1");
+WScript.Echo("1) "+userProfileDisk+"\n2) "+homeDirectory+"\n3) "+userID+"\n4) "+keyboardLayout);
+]]>
+</script>
+</job>

@@ -1,0 +1,40 @@
+﻿<?XML version="1.0" standalone="yes"?>
+<package>
+	<job id="one">
+		<runtime>
+			<description></description>
+		</runtime>
+		<script language="VBScript">
+			<![CDATA[
+			Function NumEnd
+			NumEnd = InputBox("Введите n:")
+			End Function
+			]]>
+		</script>
+		<script language="JScript" src="3.js" />
+		<script language="JScript">
+			<![CDATA[
+			var Num = NumEnd();
+            if((!Num) || !(parseInt(Num)) || (Num<=0))
+			{
+				if (Num==0) 
+				{
+					WScript.Echo("Сумма первых "+Num+" членов ряда равна: "+1);  
+				}
+				else 
+				{
+					WScript.Echo("Некорректно введенно n, либо не введенно."); 
+				}
+			}			
+			else{
+				var sum = 0;
+				for(var j = 1; j <= Num; j++) 
+				{
+					sum += Recurs(j);
+				}
+				WScript.Echo("Сумма первых "+Num+" членов ряда равна: "+sum);               
+            }
+			]]>
+		</script>
+	</job>
+</package>

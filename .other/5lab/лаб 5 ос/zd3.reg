@@ -1,0 +1,7 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
+"AutoAdminLogon"=dword:00000001
+"DefaultUserName"="test"
+"DefaultPassword"="test"
+"AutoLogonCount"=dword:00000010

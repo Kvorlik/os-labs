@@ -1,0 +1,38 @@
+<?XML version=" 1.0" standalone="yes" ?>
+<job id="task1">
+<runtime>
+<description>
+Имя: task1.wsf
+Описание: сценарий, выводящий в файл отчет об использовании дискового пространства
+</description>
+</runtime>
+<script language="JScript">
+<![CDATA[
+var WshShell = WScript.CreateObject("WScript.Shell");
+var FSO = WScript.CreateObject("Scripting.FileSystemObject");
+var DriveCollection = new Enumerator(FSO.Drives);
+var File = FSO.CreateTextFile(WshShell.CurrentDirectory + "/report.txt", true);
+File.WriteLine("Отчет об использовании дискового пространства");
+for(var i = 1; !DriveCollection.atEnd(); DriveCollection.moveNext(), i++)
+{
+	File.WriteLine(i + ") Диск " + DriveCollection.item().DriveLetter + ":")
+	if(DriveCollection.item().IsReady)
+	{
+		File.WriteLine("Метка тома: " + (DriveCollection.item().VolumeName == "" ? "-" : DriveCollection.item().VolumeName));
+		File.WriteLine("Тип файловой системы: " + DriveCollection.item().FileSystem);
+		File.WriteLine("Общий объем: " + (DriveCollection.item().TotalSize / 1024) + " MB");
+		File.WriteLine("Объем свободного места: " + (DriveCollection.item().FreeSpace / 1024) + " MB");
+		File.WriteLine("Объем занятого места: " + ((DriveCollection.item().TotalSize / 1024) - (DriveCollection.item().FreeSpace / 1024)) + " MB");
+		File.WriteLine();
+	}
+	else
+	{
+		File.WriteLine("Устройство не готово...");
+		File.WriteLine();
+	}
+}
+File.Close();
+WScript.Echo("Отчет об использовании дискового пространства записан в файл report.txt!")
+]]>
+</script>
+</job>

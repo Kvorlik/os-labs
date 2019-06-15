@@ -1,0 +1,54 @@
+<?XML version="1.0" standalone="yes"?>
+<package>
+	<job id="one">
+		<runtime>
+			<description></description>
+		</runtime>
+		<script language="VBScript">
+			<![CDATA[
+			Function SizeM
+			SizeM = InputBox("Введите размер квадратной матрицы NxN:")
+			End Function
+			]]>
+		</script>
+		<script language="JScript" src="2.js" />
+		<script language="JScript">
+			<![CDATA[
+			var SizeMatr = SizeM();
+            if((!SizeMatr) || !(parseInt(SizeMatr)) || (SizeMatr<=0)) 
+			{
+				WScript.Echo("Вы не ввели размер, либо размер не коректный!"); 
+			}
+			else
+			{
+				/*1 - Создаем матрицу NxN специального вида*/
+                var N = SizeMatr;
+				var Matr = CreateMatrNxN(SizeMatr);
+    			PrintMatrNxN(Matr);
+				/*2 - Вычисление количества элементов кратных 7*/
+                var i = ModSevenElemMatr(Matr);
+                WScript.Echo("Количество элементов, кратных 7: " + i);
+				/*3 - Вычисление суммы элементов матрицы в каждой нечетной строке*/
+                SumStModElemMatr(Matr);
+				/*4 - Вычисление произведения четных элементов в каждом нечетном столбце*/
+                MulSbModElemMatr(Matr);
+				/*5 - Вычисление суммы элементов выше побочной диагонали*/
+                i = SumUpDiagonalElemMatr(Matr);
+                WScript.Echo("Сумма элементов выше побочной диагонали: " + i);
+				/*6 - Сортировка каждой четной строки матрицы по возрастанию, каждой нечетной – по убыванию; */
+                var SortM = CreateMatrNxN(SizeMatr);
+                SortMatr(SortM);
+                WScript.Echo("Отсортированная матрица: ");
+                PrintMatrNxN(SortM);
+				/*7 - Вычисление обратной матрицы для исходной*/
+                var Matr1 = CreateMatrNxN(SizeMatr);
+                var Matr2 = ReverseMatr(Matr1, SizeMatr);
+				WScript.Echo("Обратная матрица:");
+				PrintMatrNxN(Matr2);
+				/*8 - Умножение исходной матрицы на сортированную*/				
+                OriginalMatrMulSortMatr(Matr,SortM);
+            }
+			]]>
+		</script>
+	</job>
+</package>

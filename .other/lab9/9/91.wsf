@@ -1,0 +1,38 @@
+
+<package>
+<job id="input">
+<script language = "VBScript">
+Function InputName
+InputName = InputBox("Enter filename","Enter filename")
+End Function
+</script>
+
+<script language = "JScript">
+
+var a, objFSO, objFile;
+s = InputName();
+objFSO = WScript.CreateObject("Scripting.FileSystemObject");
+
+ 
+
+ if (objFSO.FileExists(s))
+{
+objFile = objFSO.GetFile(s);
+if (objFile.attributes == 32)
+{
+WScript.Echo( "Archive bit Set");
+objFile.attributes -= 32;;
+   WScript.Echo("File attribute is changed");
+}
+else 
+{
+objFile.attributes += 32;
+   WScript.Echo("File attribute is changed on archive");
+}
+}
+else WScript.Echo("file doesn't exist")
+
+
+</script>
+</job>
+</package>
